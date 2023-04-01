@@ -9,6 +9,23 @@ import CardPage from './pages/CardPage';
 const myTheme = createTheme({
   palette: {
     mode: 'dark',
+    text: {
+      primary: '#F2F2F2',
+    },
+    background: {
+      default: '#151619',
+      paper: '#22242A',
+    },
+    grey: {
+      700: '#393C46',
+    },
+  },
+  typography: {
+    body1: {
+      '.gray': {
+        color: '#818798',
+      },
+    },
   },
 });
 
