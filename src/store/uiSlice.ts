@@ -8,7 +8,7 @@ interface IUiState {
 
 const initialState: IUiState = {
   showFilters: false,
-  paginationIndex: 0,
+  paginationIndex: 1,
 };
 
 const uiSlice = createSlice({
@@ -25,4 +25,4 @@ const uiSlice = createSlice({
 });
 
 export default uiSlice.reducer;
-export const { toggleShowFilters } = uiSlice.actions;
+export const { toggleShowFilters, setPaginationIndex } = uiSlice.actions;
