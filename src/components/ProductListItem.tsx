@@ -29,14 +29,17 @@ const ProductListItem: FC<TItemProps> = ({ product }) => {
         <Grid item xs={12}>
           <Typography variant="h5">{product.title}</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body2">{product.description}</Typography>
+        <Grid item xs={8}>
+          <Typography variant="body1">
+            <span className="gray">Category: </span>
+            {product.category}
+          </Typography>
         </Grid>
-        <Grid item xs={6}>
-          <Typography variant="body1">Category: {product.category}</Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography align="right" variant="body1">Price: {product.price}</Typography>
+        <Grid item xs={4}>
+          <Typography align="right" variant="body1">
+            <span className="gray">Price: </span>
+            {product.price}
+          </Typography>
         </Grid>
       </Grid>
     </Paper>
