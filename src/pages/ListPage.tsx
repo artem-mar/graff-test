@@ -42,7 +42,10 @@ const ListPage = () => {
           md={17}
           lg={19}
           sx={{
-            pt: 2, px: 1, pb: 3, '@media (min-width:600px)': { pt: 7, px: 9 },
+            pt: 4,
+            px: 1,
+            pb: 3,
+            '@media (min-width:600px)': { pt: 7, px: 9 },
           }}
         >
           <Typography sx={{ mb: 2 }} variant="h3">
@@ -53,7 +56,7 @@ const ListPage = () => {
               sx={{
                 display: 'inline-flex',
                 gap: 1,
-                ':hover': { textDecoration: 'underline', cursor: 'pointer' },
+                ':hover': { cursor: 'pointer' },
               }}
               onClick={() => dispatch(toggleShowFilters())}
             >
