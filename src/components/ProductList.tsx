@@ -1,30 +1,59 @@
-import React from 'react';
-import {
-  Box, CircularProgress, Pagination, List,
-} from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import React, { useCallback } from 'react';
+import { Box, CircularProgress, List } from '@mui/material';
+import { useAppSelector } from '../hooks/reduxHooks';
 import ProductListItem from './ProductListItem';
-import { setPaginationIndex } from '../store/uiSlice';
+import MyPagination from './Pagination';
 
 const ProductList = () => {
   const { products, status } = useAppSelector((state) => state.products);
-  const paginationIndex = useAppSelector((state) => state.ui.paginationIndex);
+  const {
+    paginationIndex, searchString, selectedCategories, priceFilter,
+  } = useAppSelector(
+    (state) => state.ui,
+  );
 
-  const dispatch = useAppDispatch();
+  const filterProducts = useCallback(() => {
+    const filteredBySearch = searchString.length
+      ? products.filter((p) => p.title.toLowerCase().includes(searchString.toLowerCase()))
+      : products;
+
+    const filteredByCategories = selectedCategories.length
+      ? filteredBySearch.filter((p) => selectedCategories.includes(p.category))
+      : filteredBySearch;
+
+    let filtered = [];
+
+    switch (priceFilter) {
+      case '< 100':
+        filtered = filteredByCategories.filter((p) => Number(p.price) < 100);
+        break;
+      case '100-500':
+        filtered = filteredByCategories.filter(
+          (p) => Number(p.price) > 100 && Number(p.price) < 500,
+        );
+        break;
+      case '> 500':
+        filtered = filteredByCategories.filter((p) => Number(p.price) > 500);
+        break;
+      default:
+        filtered = filteredByCategories;
+        break;
+    }
+
+    return filtered;
+  }, [searchString, selectedCategories, priceFilter, products]);
+
+  const filteredProducts = filterProducts();
 
   const itemsPerChunk = 5;
-  const chunkCount = Math.ceil(products.length / itemsPerChunk);
-  const handlePaginationChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    dispatch(setPaginationIndex(value));
-  };
-  const currentChunk = products.slice(
+  const currentChunk = filteredProducts.slice(
     (paginationIndex - 1) * itemsPerChunk,
     paginationIndex * itemsPerChunk,
   );
 
   return (
     <Box sx={{ pt: 2 }}>
-      {status === 'loading' && !products.length && (
+      {status === 'loading' && !filteredProducts.length && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
           <CircularProgress color="inherit" />
         </Box>
@@ -36,12 +65,9 @@ const ProductList = () => {
               <ProductListItem key={p.id} product={p} />
             ))}
           </List>
-          <Pagination
-            count={chunkCount}
-            page={paginationIndex}
-            size="small"
-            onChange={handlePaginationChange}
-          />
+          {!!filteredProducts.length && (
+            <MyPagination itemsCount={filteredProducts.length} itemsPerChunk={itemsPerChunk} />
+          )}
         </>
       )}
     </Box>
