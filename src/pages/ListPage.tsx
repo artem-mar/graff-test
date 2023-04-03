@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import {
-  Grid, Typography, useTheme, useMediaQuery, Box, Button,
+  Grid, Typography, useTheme, useMediaQuery, IconButton,
 } from '@mui/material';
-import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import ProductList from '../components/ProductList';
 import Filters from '../components/Filters';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { toggleShowFilters } from '../store/uiSlice';
 import { fetchProducts } from '../store/productsSlice';
+import filters from '../icons/Filters.svg';
 
 const ListPage = () => {
   const showFilters = useAppSelector((state) => state.ui.showFilters);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -52,17 +53,20 @@ const ListPage = () => {
             Products
           </Typography>
           {isSm && (
-            <Box
+            <IconButton
               sx={{
                 display: 'inline-flex',
                 gap: 1,
+                p: 0,
+                alignItems: 'center',
                 ':hover': { cursor: 'pointer' },
               }}
+              disableRipple
               onClick={() => dispatch(toggleShowFilters())}
             >
-              <TuneRoundedIcon />
+              <img src={filters} alt="filters icon" />
               <Typography>Фильтры</Typography>
-            </Box>
+            </IconButton>
           )}
           <ProductList />
         </Grid>
