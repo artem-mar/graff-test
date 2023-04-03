@@ -22,10 +22,13 @@ const initialState: IProductsState = {
   status: 'idle',
 };
 
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await axios.get(routes.productsApi());
-  return response.data;
-});
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async (): Promise<IProduct[]> => {
+    const response = await axios.get(routes.productsApi());
+    return response.data;
+  },
+);
 
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
@@ -47,11 +50,7 @@ export const fetchProductById = createAsyncThunk(
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {
-    // setProducts: (state, action) => {
-    //   state.products = action.payload.products;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
