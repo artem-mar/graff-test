@@ -16,13 +16,14 @@ const ProductListItem: FC<TItemProps> = ({ product }) => {
   return (
     <Paper
       onClick={() => navigate(routes.cardPage(product.id))}
+      elevation={0}
       component={ListItem}
       sx={{
         mb: 2,
         p: 4,
         '@media (max-width:600px)': { p: 3 },
-        ':hover': { cursor: 'pointer' },
-        ':active': { bgcolor: 'darkgray' },
+        ':hover': { cursor: 'pointer', bgcolor: 'grey.700' },
+        ':active': { bgcolor: 'grey.700' },
       }}
     >
       <Grid container rowSpacing={2}>
@@ -37,8 +38,7 @@ const ProductListItem: FC<TItemProps> = ({ product }) => {
         </Grid>
         <Grid item xs={4}>
           <Typography align="right" variant="body1">
-            <span className="gray">Price: </span>
-            {product.price}
+            <span className="gray">Price: </span>${product.price}
           </Typography>
         </Grid>
       </Grid>
